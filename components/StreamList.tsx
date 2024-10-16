@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { FlatList, ScrollView } from 'react-native';
 import StreamRow from "@/components/StreamRow";
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { TwitchContext } from '@/app/managers/TwitchManager';
+import { TwitchContext } from '@/app/providers/TwitchProvider';
 import { Spinner } from "@/components/ui/spinner";
 import { Box } from './ui/box';
 import { isWeb } from '@gluestack-ui/nativewind-utils/IsWeb';

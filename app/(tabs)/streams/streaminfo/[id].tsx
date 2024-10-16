@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Text } from '@/components/ui/text';
 import { useRouter, useLocalSearchParams } from 'expo-router';
-import { TwitchContext } from '@/app/managers/TwitchManager';
+import { TwitchContext } from '@/app/providers/TwitchProvider';
 import { Spinner } from '@/components/ui/spinner';
 import { Box } from '@/components/ui/box';
 import { VStack } from '@/components/ui/vstack';
