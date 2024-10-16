@@ -17,8 +17,9 @@ export default function TabLayout() {
       <Tabs.Screen
         name="streams"
         options={{
+          title: "Livestreams",
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'home' : 'home-outline'} color={color} />
+            <TabBarIcon name={focused ? 'videocam-outline' : 'videocam-off-outline'} color={color} />
           ),
         }}
       />
@@ -27,7 +28,7 @@ export default function TabLayout() {
         options={{
           title: 'Search',
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'code-slash' : 'code-slash-outline'} color={color} />
+            <TabBarIcon name={focused ? 'search-outline' : 'search-outline'} color={color} />
           ),
         }}
       />

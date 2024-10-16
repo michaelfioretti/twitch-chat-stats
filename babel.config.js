@@ -11,8 +11,6 @@ module.exports = function (api) {
         alias: {
           "@": "./"
         }
-      }],
-      ['module:react-native-dotenv']
-    ]
+      }]]
   };
 };

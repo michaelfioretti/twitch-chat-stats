@@ -18,7 +18,7 @@ interface StreamRowProps {
 const StreamRow: React.FC<StreamRowProps> = ({ stream }) => {
   return (
     <Pressable onPress={() => {
-      router.push(`/streams/streaminfo/${stream.id}`)
+      router.push({pathname: `/streams/streaminfo/[id]`, params: {id: stream.id, user_name: stream.user_name}})
     }}>
       <Box className="overflow-hidden rounded-md h-72">
         <Image
@@ -32,8 +32,8 @@ const StreamRow: React.FC<StreamRowProps> = ({ stream }) => {
         className={`flex-1 my-2 lg:my-0 lg:ml-0"`}
       >
         <HStack className="justify-between py-2 items-start">
-          <VStack space="sm" className="flex-1">
-            <HStack>
+          <VStack space="md" className="flex-1">
+            <HStack space='sm'>
               <Avatar size="sm">
                 <AvatarImage
                   source={{

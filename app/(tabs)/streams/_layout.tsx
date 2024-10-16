@@ -1,22 +1,24 @@
 import React from "react";
 import { Stack, useRouter } from "expo-router";
+import { TwitchContext } from '@/app/managers/TwitchManager';
+
 
 export default function StackLayout() {
-  const router = useRouter();
-
   return (
     <Stack>
       <Stack.Screen
         name="topstreams"
         options={{
-          title: "Top 100 Twitch Streams"
+          header: (() => null),
+          title: "Streams"
         }}
       />
       <Stack.Screen
         name="streaminfo/[id]"
-        options={{
-          title: "Stream Info"
-        }}
+        // Note: leaving as "any" for now since it gets pretty convoluted to extend this type
+        options={(props: any) => ({
+          title: props.route.params.user_name,
+        })}
       />
     </Stack>
   );

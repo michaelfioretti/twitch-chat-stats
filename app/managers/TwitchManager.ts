@@ -33,7 +33,7 @@ const TwitchManager = () => {
       const streamsResponse = await axios.get(`${TWITCH_BASE_URL}/streams`, {
         params: { 'first': 100 },
         headers: {
-          'Client-ID': process.env.TWITCH_CLIENT_ID,
+          'Client-ID': process.env.EXPO_PUBLIC_TWITCH_CLIENT_ID,
           'Authorization': `Bearer ${token}`,
         },
       });
@@ -48,7 +48,7 @@ const TwitchManager = () => {
       const streamersResponse = await axios.get(`${TWITCH_BASE_URL}/users`, {
         params: { id: userIds },
         headers: {
-          'Client-ID': process.env.TWITCH_CLIENT_ID,
+          'Client-ID': process.env.EXPO_PUBLIC_TWITCH_CLIENT_ID,
           Authorization: `Bearer ${token}`,
         },
       });
@@ -70,8 +70,8 @@ const TwitchManager = () => {
 
 const getTwitchToken = async () => {
   const response = await axios.post(`https://id.twitch.tv/oauth2/token`, {
-    client_id: process.env.TWITCH_CLIENT_ID,
-    client_secret: process.env.TWITCH_CLIENT_SECRET,
+    client_id: process.env.EXPO_PUBLIC_TWITCH_CLIENT_ID,
+    client_secret: process.env.EXPO_PUBLIC_TWITCH_CLIENT_SECRET,
     grant_type: 'client_credentials',
   })
 
