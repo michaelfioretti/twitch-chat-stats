@@ -1,30 +1,26 @@
 import React, { createContext, ReactNode, useEffect, useState } from 'react';
 import TwitchManager from "../managers/TwitchManager"
-import { TwitchStream } from '@/types/stream';
+import { Streamer, TwitchChannel, TwitchStream } from '@/types/stream';
 import { updateThumbnailSize } from '../helpers/Twitch';
 
 interface TwitchProviderProps {
   children: ReactNode;
 }
 
-interface Streamer {
-  id: string;
-  display_name: string;
-  profile_image_url: string;
-  description: string;
-}
-
 interface TwitchContextProps {
   streams: TwitchStream[];
   streamers: Streamer[];
   fetchStreams: () => Promise<void>;
-  searchForStreamer: (query: string) => Promise<void>;
+  searchForStreamers: (query: string) => Promise<TwitchStream[]>;
+  searchForSpecificLiveStreams: (channels: TwitchChannel[]) => Promise<TwitchStream[]>;
 }
 
 export const TwitchContext = createContext<TwitchContextProps | undefined>(undefined);
 
 const TwitchProvider: React.FC<TwitchProviderProps> = ({ children }) => {
   const twitchManager = new TwitchManager();
+  // "streams" are a list of Twitch Livestreams, while "streamers" are the
+  // associated streamers for each live stream and their metadata (profile picture, etc)
   const [streams, setStreams] = useState<TwitchStream[]>([]);
   const [streamers, setStreamers] = useState<Streamer[]>([]);
 
@@ -58,14 +54,22 @@ const TwitchProvider: React.FC<TwitchProviderProps> = ({ children }) => {
     setStreamers(streamerInfo)
   }
 
-  const searchForStreamer = async (query: string) => {
+  const searchForStreamers = async (query: string): Promise<TwitchStream[]> => {
+    // First, we will get all of the channels from the user's query. Then, we will
+    // grab the associated livestreams for each of these channels
     const queryResults = await twitchManager.SearchForTwitchChannel(query);
-    console.log('here are the query results')
-    console.log(queryResults)
+    const livestreamsForChannels = await twitchManager.GetSpecificTwitchLiveStreams(queryResults)
+
+    return livestreamsForChannels
+  }
+
+  const searchForSpecificLiveStreams = async (channels: TwitchChannel[]) => {
+    const results = await twitchManager.GetSpecificTwitchLiveStreams(channels)
+    return results
   }
 
   return (
-    <TwitchContext.Provider value={{ streams, streamers, fetchStreams, searchForStreamer }}>
+    <TwitchContext.Provider value={{ streams, streamers, fetchStreams, searchForStreamers, searchForSpecificLiveStreams }}>
       {children}
     </TwitchContext.Provider>
   );

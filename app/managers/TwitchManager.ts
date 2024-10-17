@@ -1,4 +1,4 @@
-import { TwitchStream } from '@/types/stream';
+import { TwitchChannel, TwitchStream } from '@/types/stream';
 import axios from 'axios';
 
 const TWITCH_BASE_URL = 'https://api.twitch.tv/helix';
@@ -6,7 +6,7 @@ const TWITCH_BASE_URL = 'https://api.twitch.tv/helix';
 class TwitchManager {
   async SearchForTwitchChannel(query: string) {
     const token = await this.GetTwitchToken();
-    const searchUrl = 'https://api.twitch.tv/helix/search/channels';
+    const searchUrl = 'https://api.twitch.tv/helix/search/channels?live_only=true';
 
     try {
       const response = await axios.get(searchUrl, {
@@ -61,6 +61,22 @@ class TwitchManager {
 
     return streamsResponse.data.data;
   }
+
+  async GetSpecificTwitchLiveStreams(channels: TwitchChannel[]): Promise<TwitchStream[]> {
+    const token = await this.GetTwitchToken();
+    const streamsResponse = await axios.get(`${TWITCH_BASE_URL}/streams`, {
+      params: {
+        user_id: channels.map((channel) => channel.id)
+      },
+      headers: {
+        'Client-ID': process.env.EXPO_PUBLIC_TWITCH_CLIENT_ID,
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+
+    return streamsResponse.data.data;
+  }
 }
+
 
 export default TwitchManager

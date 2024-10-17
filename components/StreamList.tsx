@@ -7,7 +7,7 @@ import { Spinner } from "@/components/ui/spinner";
 import { Box } from './ui/box';
 import { isWeb } from '@gluestack-ui/nativewind-utils/IsWeb';
 import { VStack } from '@/components/ui/vstack';
-import { Grid } from '@/components/ui/grid';
+import { addStreamersToStream } from '@/app/helpers/Twitch';
 
 // Main component to list streamers
 const StreamList = () => {
@@ -19,15 +19,7 @@ const StreamList = () => {
 
   const { streams, streamers } = twitchContext;
 
-  // Match streamers and streams by user_id to build proper streamer data
-  const combinedData = streams.map(stream => {
-    const streamer = streamers.find(s => s.id === stream.user_id);
-    return {
-      ...stream,
-      streamerName: streamer?.display_name,
-      profileImage: streamer?.profile_image_url,
-    };
-  });
+  const combinedData = addStreamersToStream(streams, streamers)
 
   return (
     <SafeAreaView>
