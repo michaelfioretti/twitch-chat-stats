@@ -7,15 +7,9 @@ import { Pressable } from '@/components/ui/pressable'
 import { SearchIcon } from '@/components/ui/icon';
 import { FormControl } from '@/components/ui/form-control';
 import { TwitchContext } from '@/app/providers/TwitchProvider';
-import { Streamer, TwitchStream } from '@/types/stream';
-import StreamList from '@/components/StreamList';
-import { Box } from '@/components/ui/box';
-import { HStack } from '@/components/ui/hstack';
+import { TwitchStream } from '@/types/stream';
 import StreamRow from '@/components/StreamRow';
-import { isWeb } from '@gluestack-ui/nativewind-utils/IsWeb';
 import { Spinner } from '@/components/ui/spinner';
-import { addStreamersToStream } from '@/app/helpers/Twitch';
-import ChannelRow from '@/components/ChannelRow';
 
 export default function SearchScreen() {
   // const { colorMode } = useContext(ThemeContext);
@@ -28,19 +22,13 @@ export default function SearchScreen() {
     return <Spinner size="large" />;
   }
 
-  const { streamers } = twitchContext;
-
   // Searches Twitch for livestreams by the channel provided
-  const searchForStreamers = async () => {
+  const searchForStreams = async () => {
     setSearching(true)
-    const twitchStreamerResults = await twitchContext.searchForStreamers(searchQuery)
 
-    // Match streamers and streams by user_id to build proper streamer data
-    const results = addStreamersToStream(twitchStreamerResults, streamers)
-    console.log('results length...: ', results.length, typeof results)
+    const twitchStreamerResults = await twitchContext.searchForStreams(searchQuery)
+    setSearchResults(twitchStreamerResults)
 
-    setSearchResults(results)
-    console.log('\n\n\nwe now have this...: ', searchResults)
     setSearching(false)
   }
 
@@ -51,10 +39,14 @@ export default function SearchScreen() {
           <InputField
             placeholder="Search for live Twitch channels..."
             value={searchQuery}
-            onChangeText={setSearchQuery}
-            onSubmitEditing={() => searchForStreamers()}
+            onChangeText={(text) => {
+              // Clear out current results once the user starts typing again
+              setSearchResults([])
+              setSearchQuery(text)
+            }}
+            onSubmitEditing={() => searchForStreams()}
           />
-          <Pressable onPress={() => searchForStreamers()} disabled={searching}>
+          <Pressable onPress={() => searchForStreams()} disabled={searching}>
             <InputIcon as={SearchIcon} className="cursor-pointer h-3 w-3" />
           </Pressable>
         </Input>

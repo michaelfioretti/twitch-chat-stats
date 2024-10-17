@@ -4,7 +4,7 @@ import axios from 'axios';
 const TWITCH_BASE_URL = 'https://api.twitch.tv/helix';
 
 class TwitchManager {
-  async SearchForTwitchChannel(query: string) {
+  async SearchForTwitchChannel(query: string): Promise<TwitchChannel[]> {
     const token = await this.GetTwitchToken();
     const searchUrl = 'https://api.twitch.tv/helix/search/channels?live_only=true';
 
