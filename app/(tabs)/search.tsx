@@ -1,35 +1,44 @@
-import Ionicons from '@expo/vector-icons/Ionicons';
+import { useContext, useState } from 'react';
 import { StyleSheet, Image, Platform } from 'react-native';
-
-import { Collapsible } from '@/components/Collapsible';
-import { ExternalLink } from '@/components/ExternalLink';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Box } from '@/components/ui/box';
+
 import { Input, InputField, InputIcon, InputSlot } from '@/components/ui/input';
+import { Pressable } from '@/components/ui/pressable'
 import { SearchIcon } from '@/components/ui/icon';
-import { useContext } from 'react';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import { FormControl } from '@/components/ui/form-control';
+import { TwitchContext } from '@/app/providers/TwitchProvider';
 
 export default function TabTwoScreen() {
   // const { colorMode } = useContext(ThemeContext);
+  const twitchContext = useContext(TwitchContext);
+  const [searchQuery, setSearchQuery] = useState("")
+
+  if (!twitchContext) {
+    return
+  }
+
+  const searchForStreamer = async () => {
+    console.log('going to search for this: ', searchQuery)
+    const results = await twitchContext.searchForStreamer(searchQuery)
+    console.log('here are the results: ', results)
+  }
 
   return (
     <SafeAreaView>
-      <Box className="p-5 md:hidden w-full">
-        <Input variant="rounded" size="sm" className="w-full h-10">
-          <InputField placeholder="Anywhere • Any week • Add guests" />
-          <InputSlot className="bg-primary-500 rounded-full h-6 w-6 m-1.5">
-            <InputIcon
-              as={SearchIcon}
-              // color={colorMode === "light" ? "#FEFEFF" : "#171717"}
-              color="#171717"
-            />
-          </InputSlot>
+      <FormControl className="my-4">
+        <Input variant="underlined" size="sm" className="mx-6 my-2">
+          <InputField
+            placeholder="Search for a Twitch Streamer..."
+            value={searchQuery}
+            onChangeText={setSearchQuery}
+            onSubmitEditing={() => searchForStreamer()}
+          />
+          <Pressable onPress={() => searchForStreamer()}>
+            <InputIcon as={SearchIcon} className="cursor-pointer h-3 w-3" />
+          </Pressable>
         </Input>
-      </Box>
-
+      </FormControl>
     </SafeAreaView>
   );
 }

@@ -4,7 +4,7 @@ import axios from 'axios';
 const TWITCH_BASE_URL = 'https://api.twitch.tv/helix';
 
 class TwitchManager {
-  async SearchForTwitchChannel(channel: string) {
+  async SearchForTwitchChannel(query: string) {
     const token = await this.GetTwitchToken();
     const searchUrl = 'https://api.twitch.tv/helix/search/channels';
 
@@ -15,7 +15,7 @@ class TwitchManager {
           Authorization: `Bearer ${token}`,
         },
         params: {
-          query: channel,
+          query: query,
         },
       });
 

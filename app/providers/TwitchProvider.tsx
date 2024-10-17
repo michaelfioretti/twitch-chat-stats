@@ -18,6 +18,7 @@ interface TwitchContextProps {
   streams: TwitchStream[];
   streamers: Streamer[];
   fetchStreams: () => Promise<void>;
+  searchForStreamer: (query: string) => Promise<void>;
 }
 
 export const TwitchContext = createContext<TwitchContextProps | undefined>(undefined);
@@ -57,8 +58,14 @@ const TwitchProvider: React.FC<TwitchProviderProps> = ({ children }) => {
     setStreamers(streamerInfo)
   }
 
+  const searchForStreamer = async (query: string) => {
+    const queryResults = await twitchManager.SearchForTwitchChannel(query);
+    console.log('here are the query results')
+    console.log(queryResults)
+  }
+
   return (
-    <TwitchContext.Provider value={{ streams, streamers, fetchStreams }}>
+    <TwitchContext.Provider value={{ streams, streamers, fetchStreams, searchForStreamer }}>
       {children}
     </TwitchContext.Provider>
   );
