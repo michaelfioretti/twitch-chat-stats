@@ -1,7 +1,5 @@
 import React from "react";
 import { Stack, useRouter } from "expo-router";
-import { TwitchContext } from '@/app/managers/TwitchManager';
-
 
 export default function StackLayout() {
   return (
