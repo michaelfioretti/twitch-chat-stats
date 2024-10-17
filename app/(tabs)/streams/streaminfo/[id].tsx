@@ -36,13 +36,31 @@ const StreamInfo = () => {
 
   return (
     <SafeAreaView style={styles.safeAreaView}>
-      <WebView
+      <VStack>
+        <Box style={styles.streamContainer}>
+          <WebView
+            source={{ uri: `https://player.twitch.tv/?channel=${activeStream.user_name}&parent=localhost` }}
+            javaScriptEnabled={true}
+            allowsInlineMediaPlayback={true}
+            startInLoadingState={true}
+            style={styles.stream}
+          />
+        </Box>
+
+        <Box style={styles.chatContainer}>
+          <WebView
+            source={{ uri: `https://www.twitch.tv/embed/${activeStream.user_name}/chat?parent=localhost` }}
+            style={styles.chat}
+          />
+        </Box>
+      </VStack>
+      {/* <WebView
         source={{ uri: `https://player.twitch.tv/?channel=${activeStream.user_name}&parent=localhost` }}
         javaScriptEnabled={true}
         allowsInlineMediaPlayback={true}
         startInLoadingState={true}
         allowsFullscreenVideo={true}
-      />
+      /> */}
     </SafeAreaView>
   );
 };
@@ -56,6 +74,19 @@ const styles = StyleSheet.create({
   safeAreaView: {
     width: width,
     height: height,
+  },
+  streamContainer: {
+    height: 300, // Adjust height based on your needs
+  },
+  stream: {
+    flex: 1,
+  },
+  chatContainer: {
+    height: 400, // Adjust height based on your needs
+    marginTop: 10,
+  },
+  chat: {
+    flex: 1,
   },
 });
 
