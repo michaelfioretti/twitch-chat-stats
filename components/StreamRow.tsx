@@ -62,8 +62,8 @@ const StreamRow: React.FC<StreamRowProps> = ({ stream }) => {
             </HStack>
             <HStack space='sm'>
               {
-                stream.tags.map((tag) => {
-                  return <Badge size="sm" variant="outline" action="info">
+                stream.tags.map((tag, index) => {
+                  return <Badge size="sm" variant="outline" action="info" key={index}>
                     <BadgeText>{tag}</BadgeText>
                   </Badge>
                 })
