@@ -4,10 +4,9 @@ import StreamRow from "@/components/StreamRow";
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { TwitchContext } from '@/app/providers/TwitchProvider';
 import { Spinner } from "@/components/ui/spinner";
-import { Box } from './ui/box';
+import { Box } from '@/components/ui/box';
 import { isWeb } from '@gluestack-ui/nativewind-utils/IsWeb';
 import { VStack } from '@/components/ui/vstack';
-import { addStreamersToStream } from '@/app/helpers/Twitch';
 
 // Main component to list streamers
 const StreamList = () => {
@@ -17,9 +16,7 @@ const StreamList = () => {
     return <Spinner size="large" />;
   }
 
-  const { streams, streamers } = twitchContext;
-
-  const combinedData = addStreamersToStream(streams, streamers)
+  const { streams } = twitchContext;
 
   return (
     <SafeAreaView>
@@ -34,7 +31,10 @@ const StreamList = () => {
         >
           <VStack className="p-4 pb-0 md:px-10 md:pt-6  w-full" space="2xl">
             {
-              combinedData.map((item, index) => {
+              streams.map((item, index) => {
+                if(index === 1) {
+                  console.log(item)
+                }
                 return <StreamRow stream={item} key={index} />
               })
             }

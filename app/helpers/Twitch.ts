@@ -1,4 +1,4 @@
-import { Streamer, TwitchStream } from "@/types/stream";
+import { TwitchStream } from "@/types/stream";
 
 /**
  * Loops through all passed in Twitch streams and updates their thumbnail size/url
@@ -27,16 +27,4 @@ export function replaceThumbnailSize(
   return thumbnailUrl
     .replace("{width}", width.toString())
     .replace("{height}", height.toString());
-}
-
-// Match streamers and streams by user_id to build proper streamer data
-export function addStreamersToStream(streams: TwitchStream[], streamers: Streamer[]): TwitchStream[] {
-  return streams.map((stream) => {
-    const streamer = streamers.find(s => s.id === stream.user_id);
-    return {
-      ...stream,
-      streamerName: streamer?.display_name,
-      profileImage: streamer?.profile_image_url,
-    };
-  })
 }
