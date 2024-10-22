@@ -26,8 +26,8 @@ export default function SearchScreen() {
   const searchForStreams = async () => {
     setSearching(true)
 
-    // const twitchStreamerResults = await twitchContext.searchForStreams(searchQuery)
-    // setSearchResults(twitchStreamerResults)
+    const twitchStreamerResults = await twitchContext.searchForStreams(searchQuery)
+    setSearchResults(twitchStreamerResults)
 
     setSearching(false)
   }

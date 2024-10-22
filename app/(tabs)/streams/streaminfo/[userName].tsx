@@ -15,23 +15,16 @@ import { WebView } from 'react-native-webview';
 import Constants from 'expo-constants';
 
 const StreamInfo = () => {
-  const { id } = useLocalSearchParams();
+  const { userName } = useLocalSearchParams();
   const router = useRouter();
   const twitchContext = useContext(TwitchContext);
 
   useEffect(() => {
-    router.setParams({ title: activeStream.user_name })
+    router.setParams({ title: userName })
   }, [])
 
   if (!twitchContext) {
     return <Spinner size="large" />;
-  }
-
-  const { streams } = twitchContext;
-  const activeStream: TwitchStream = streams.filter((stream) => stream.id == id)[0]
-
-  if (!activeStream) {
-    return
   }
 
   return (
@@ -39,7 +32,7 @@ const StreamInfo = () => {
       <VStack>
         <Box style={styles.streamContainer}>
           <WebView
-            source={{ uri: `https://player.twitch.tv/?channel=${activeStream.user_name}&parent=localhost` }}
+            source={{ uri: `https://player.twitch.tv/?channel=${userName}&parent=localhost` }}
             javaScriptEnabled={true}
             allowsInlineMediaPlayback={true}
             startInLoadingState={true}
@@ -49,7 +42,7 @@ const StreamInfo = () => {
 
         <Box style={styles.chatContainer}>
           <WebView
-            source={{ uri: `https://www.twitch.tv/embed/${activeStream.user_name}/chat?parent=localhost` }}
+            source={{ uri: `https://www.twitch.tv/embed/${userName}/chat?parent=localhost` }}
             style={styles.chat}
           />
         </Box>

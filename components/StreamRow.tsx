@@ -19,7 +19,7 @@ interface StreamRowProps {
 const StreamRow: React.FC<StreamRowProps> = ({ stream }) => {
   return (
     <Pressable onPress={() => {
-      router.push({ pathname: `/streams/streaminfo/[id]`, params: { id: stream.id, user_name: stream.user_name } })
+      router.push({ pathname: `/streams/streaminfo/[userName]`, params: { userName: stream.user_name } })
     }}>
       <Box className="overflow-hidden rounded-md h-72">
         <Image

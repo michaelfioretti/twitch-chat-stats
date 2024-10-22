@@ -32,9 +32,6 @@ const StreamList = () => {
           <VStack className="p-4 pb-0 md:px-10 md:pt-6  w-full" space="2xl">
             {
               streams.map((item, index) => {
-                if(index === 1) {
-                  console.log(item)
-                }
                 return <StreamRow stream={item} key={index} />
               })
             }

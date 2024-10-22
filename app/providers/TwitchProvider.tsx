@@ -10,7 +10,7 @@ interface TwitchProviderProps {
 interface TwitchContextProps {
   streams: TwitchStream[];
   fetchStreams: () => Promise<void>;
-  searchForStreams: (query: string) => Promise<void>;
+  searchForStreams: (query: string) => Promise<TwitchStream[]>;
 }
 
 export const TwitchContext = createContext<TwitchContextProps | undefined>(undefined);
@@ -30,15 +30,10 @@ const TwitchProvider: React.FC<TwitchProviderProps> = ({ children }) => {
     setStreams(updatedLivestreams)
   }
 
-  const searchForStreams = async (query: string): Promise<void> => {
-    // First, we will get all of the channels from the user's query. Then, we will
-    // grab the associated livestreams for each of these channels. Finally, we
-    // will grab associated channel metadata and merge into the streams pulled
-    const queryResults = await twitchManager.SearchForTwitchChannel(query);
-
-    // const updatedLivestreams = updateThumbnailSize(results)
-
-    // return queryResults
+  const searchForStreams = async (query: string): Promise<TwitchStream[]> => {
+    const queryResults = await twitchManager.SearchForTwitchStreams(query);
+    const updatedLivestreams = updateThumbnailSize(queryResults)
+    return updatedLivestreams
   }
 
   return (

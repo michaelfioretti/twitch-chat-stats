@@ -1,4 +1,4 @@
-import { TwitchChannel, TwitchStream } from '@/types/stream';
+import { TwitchStream } from '@/types/stream';
 import axios from 'axios';
 
 const API_URL = 'https://wthqeqkwrf.execute-api.us-east-1.amazonaws.com'
@@ -9,13 +9,9 @@ class TwitchManager {
     return streamsResponse.data.results
   }
 
-  async SearchForTwitchChannel(query: string): Promise<TwitchChannel[]> {
+  async SearchForTwitchStreams(query: string): Promise<TwitchStream[]> {
     try {
-      const response = await axios.post(`${API_URL}/search`, {
-        params: {
-          query: query,
-        },
-      });
+      const response = await axios.post(`${API_URL}/search`, { query });
 
       return response.data.data;
     } catch (error) {
