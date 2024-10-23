@@ -15,7 +15,7 @@ export default function StackLayout() {
         name="streaminfo/[userName]"
         // Note: leaving as "any" for now since it gets pretty convoluted to extend this type
         options={(props: any) => ({
-          title: props.route.params.user_name,
+          title: props.route.params.userName,
         })}
       />
     </Stack>

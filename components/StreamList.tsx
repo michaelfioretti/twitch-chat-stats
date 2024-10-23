@@ -21,9 +21,8 @@ const StreamList = () => {
     setRefreshing(false);
   }, []);
 
-  if (!twitchContext) {
-    console.log('got here...')
-    return <Spinner size="large" />;
+  if (!twitchContext || twitchContext.initialLoad) {
+    return <Spinner size="large" />
   }
 
   const { streams } = twitchContext;
