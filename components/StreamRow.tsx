@@ -6,11 +6,10 @@ import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { TwitchStream } from '@/types/stream';
 import { VStack } from '@/components/ui/vstack';
 import { EyeIcon, Icon } from "@/components/ui/icon"
-import { GridItem } from '@/components/ui/grid';
 import { Image } from '@/components/ui/image'
 import { router } from 'expo-router';
 import { Box } from '@/components/ui/box';
-import { Badge, BadgeIcon, BadgeText } from '@/components/ui/badge';
+import { Badge, BadgeText } from '@/components/ui/badge';
 
 interface StreamRowProps {
   stream: TwitchStream
@@ -50,15 +49,17 @@ const StreamRow: React.FC<StreamRowProps> = ({ stream }) => {
               {stream.title}
             </Text>
             <HStack>
-              <Text
-                size="sm"
-                className="font-semibold text-typography-900"
-              >
-                {new Intl.NumberFormat().format(stream.viewer_count)}
-              </Text>
-              <Text size="sm" className="pl-1 text-typography-900">
-                viewers
-              </Text>
+              {stream.viewer_count && <>
+                <Text
+                  size="sm"
+                  className="font-semibold text-typography-900"
+                >
+                  {new Intl.NumberFormat().format(stream.viewer_count)}
+                </Text>
+                <Text size="sm" className="pl-1 text-typography-900">
+                  viewers
+                </Text>
+              </>}
             </HStack>
             <HStack space='sm'>
               {

@@ -4,17 +4,20 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Input, InputField, InputIcon } from '@/components/ui/input';
 import { Pressable } from '@/components/ui/pressable'
-import { SearchIcon } from '@/components/ui/icon';
+import { InfoIcon, SearchIcon } from '@/components/ui/icon';
 import { FormControl } from '@/components/ui/form-control';
 import { TwitchContext } from '@/app/providers/TwitchProvider';
 import { TwitchStream } from '@/types/stream';
 import StreamRow from '@/components/StreamRow';
 import { Spinner } from '@/components/ui/spinner';
+import { Alert, AlertIcon, AlertText } from '@/components/ui/alert';
+import { Box } from '@/components/ui/box';
 
 export default function SearchScreen() {
   // const { colorMode } = useContext(ThemeContext);
   const twitchContext = useContext(TwitchContext);
   const [searching, setSearching] = useState(false)
+  const [searchError, setSearchError] = useState(false)
   const [searchQuery, setSearchQuery] = useState("")
   const [searchResults, setSearchResults] = useState<TwitchStream[]>([]);
 
@@ -24,10 +27,15 @@ export default function SearchScreen() {
 
   // Searches Twitch for livestreams by the channel provided
   const searchForStreams = async () => {
+    setSearchError(false)
     setSearching(true)
 
-    const twitchStreamerResults = await twitchContext.searchForStreams(searchQuery)
-    setSearchResults(twitchStreamerResults)
+    try {
+      const twitchStreamerResults = await twitchContext.searchForStreams(searchQuery)
+      setSearchResults(twitchStreamerResults)
+    } catch (e) {
+      setSearchError(true)
+    }
 
     setSearching(false)
   }
@@ -53,6 +61,14 @@ export default function SearchScreen() {
       </FormControl>
       {
         searching ? <Spinner size="large" /> : <></>
+      }
+      {
+        searchError ? <Box>
+          <Alert action="error" variant="solid">
+            <AlertIcon as={InfoIcon} />
+            <AlertText>Description of alert!</AlertText>
+          </Alert>
+        </Box> : <></>
       }
       {
         !searching || !searchResults.length && <></>

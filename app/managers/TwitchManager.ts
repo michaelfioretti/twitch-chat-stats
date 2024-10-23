@@ -12,10 +12,8 @@ class TwitchManager {
   async SearchForTwitchStreams(query: string): Promise<TwitchStream[]> {
     try {
       const response = await axios.post(`${API_URL}/search`, { query });
-
-      return response.data.data;
-    } catch (error) {
-      console.error('Error searching for channels:', error);
+      return response.data.results;
+  } catch (error) {
       throw error;
     }
   }
