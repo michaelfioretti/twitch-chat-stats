@@ -9,7 +9,6 @@ interface TwitchProviderProps {
 
 interface TwitchContextProps {
   streams: TwitchStream[];
-  loadingStreams: boolean;
   fetchStreams: () => Promise<void>;
   searchForStreams: (query: string) => Promise<TwitchStream[]>;
 }
@@ -18,7 +17,6 @@ export const TwitchContext = createContext<TwitchContextProps | undefined>(undef
 
 const TwitchProvider: React.FC<TwitchProviderProps> = ({ children }) => {
   const twitchManager = new TwitchManager();
-  const [loadingStreams, setLoadingStreams] = useState(false);
   const [streams, setStreams] = useState<TwitchStream[]>([]);
 
   useEffect(() => {
@@ -26,12 +24,10 @@ const TwitchProvider: React.FC<TwitchProviderProps> = ({ children }) => {
   }, []);
 
   const fetchStreams = async () => {
-    setLoadingStreams(true)
     const livestreams = await twitchManager.GetTop100TwitchLiveStreams()
     const updatedLivestreams = updateThumbnailSize(livestreams)
 
     setStreams(updatedLivestreams)
-    setLoadingStreams(false)
   }
 
   const searchForStreams = async (query: string): Promise<TwitchStream[]> => {
@@ -41,7 +37,7 @@ const TwitchProvider: React.FC<TwitchProviderProps> = ({ children }) => {
   }
 
   return (
-    <TwitchContext.Provider value={{ streams, loadingStreams, fetchStreams, searchForStreams }}>
+    <TwitchContext.Provider value={{ streams, fetchStreams, searchForStreams }}>
       {children}
     </TwitchContext.Provider>
   );

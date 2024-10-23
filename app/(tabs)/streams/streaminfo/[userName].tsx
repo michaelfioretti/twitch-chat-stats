@@ -1,18 +1,13 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Text } from '@/components/ui/text';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { TwitchContext } from '@/app/providers/TwitchProvider';
 import { Spinner } from '@/components/ui/spinner';
 import { Box } from '@/components/ui/box';
 import { VStack } from '@/components/ui/vstack';
-import { HStack } from '@/components/ui/hstack';
-import { TwitchStream } from '@/types/stream';
-import { Divider } from '@/components/ui/divider';
-import { View, StyleSheet, Button, Dimensions } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 import { WebView } from 'react-native-webview';
-import Constants from 'expo-constants';
 
 const StreamInfo = () => {
   const { userName } = useLocalSearchParams();
