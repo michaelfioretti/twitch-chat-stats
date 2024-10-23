@@ -1,6 +1,9 @@
-# Twitch Chat Stats
+# Twitch Livestream App
 
 A React Native app that shows the top 100 Twitch streams by viewer count. This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+
+![group](https://github.com/user-attachments/assets/2edcb2c0-b00a-46a1-93ab-e2361a4eb8f4)
+
 
 ## Get started
 
