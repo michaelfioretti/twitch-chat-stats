@@ -1,37 +1,25 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Text } from '@/components/ui/text';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { TwitchContext } from '@/app/providers/TwitchProvider';
 import { Spinner } from '@/components/ui/spinner';
 import { Box } from '@/components/ui/box';
 import { VStack } from '@/components/ui/vstack';
-import { HStack } from '@/components/ui/hstack';
-import { TwitchStream } from '@/types/stream';
-import { Divider } from '@/components/ui/divider';
-import { View, StyleSheet, Button, Dimensions } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 import { WebView } from 'react-native-webview';
-import Constants from 'expo-constants';
 
 const StreamInfo = () => {
-  const { id } = useLocalSearchParams();
+  const { userName } = useLocalSearchParams();
   const router = useRouter();
   const twitchContext = useContext(TwitchContext);
 
   useEffect(() => {
-    router.setParams({ title: activeStream.user_name })
+    router.setParams({ title: userName })
   }, [])
 
   if (!twitchContext) {
     return <Spinner size="large" />;
-  }
-
-  const { streams } = twitchContext;
-  const activeStream: TwitchStream = streams.filter((stream) => stream.id == id)[0]
-
-  if (!activeStream) {
-    return
   }
 
   return (
@@ -39,7 +27,7 @@ const StreamInfo = () => {
       <VStack>
         <Box style={styles.streamContainer}>
           <WebView
-            source={{ uri: `https://player.twitch.tv/?channel=${activeStream.user_name}&parent=localhost` }}
+            source={{ uri: `https://player.twitch.tv/?channel=${userName}&parent=localhost` }}
             javaScriptEnabled={true}
             allowsInlineMediaPlayback={true}
             startInLoadingState={true}
@@ -49,7 +37,7 @@ const StreamInfo = () => {
 
         <Box style={styles.chatContainer}>
           <WebView
-            source={{ uri: `https://www.twitch.tv/embed/${activeStream.user_name}/chat?parent=localhost` }}
+            source={{ uri: `https://www.twitch.tv/embed/${userName}/chat?parent=localhost` }}
             style={styles.chat}
           />
         </Box>

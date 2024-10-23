@@ -1,47 +1,50 @@
-import React, { useContext } from 'react';
-import { FlatList, ScrollView } from 'react-native';
+import React, { useCallback, useContext, useState } from 'react';
+import { RefreshControl, ScrollView } from 'react-native';
 import StreamRow from "@/components/StreamRow";
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { TwitchContext } from '@/app/providers/TwitchProvider';
 import { Spinner } from "@/components/ui/spinner";
-import { Box } from './ui/box';
+import { Box } from '@/components/ui/box';
 import { isWeb } from '@gluestack-ui/nativewind-utils/IsWeb';
 import { VStack } from '@/components/ui/vstack';
-import { addStreamersToStream } from '@/app/helpers/Twitch';
 
-// Main component to list streamers
 const StreamList = () => {
+  const [refreshing, setRefreshing] = useState(false);
   const twitchContext = useContext(TwitchContext);
 
-  if (!twitchContext) {
-    return <Spinner size="large" />;
+  const onRefresh = useCallback(async () => {
+    if (!twitchContext) {
+      return
+    }
+
+    setRefreshing(true);
+    await twitchContext.fetchStreams()
+    setRefreshing(false);
+  }, []);
+
+  if (!twitchContext || twitchContext.initialLoad) {
+    return <Spinner size="large" />
   }
 
-  const { streams, streamers } = twitchContext;
-
-  const combinedData = addStreamersToStream(streams, streamers)
+  const { streams } = twitchContext;
 
   return (
-    <SafeAreaView>
-      <Box className="flex-1 ">
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{
-            paddingBottom: isWeb ? 0 : 100,
-            flexGrow: 1,
-          }}
-          className="flex-1 mb-20 md:mb-2"
-        >
-          <VStack className="p-4 pb-0 md:px-10 md:pt-6  w-full" space="2xl">
-            {
-              combinedData.map((item, index) => {
-                return <StreamRow stream={item} key={index} />
-              })
-            }
-          </VStack>
-        </ScrollView>
-      </Box>
-    </SafeAreaView>
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      contentContainerStyle={{
+        paddingBottom: isWeb ? 0 : 100,
+        flexGrow: 1,
+      }}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} title='Pull to refresh' />
+      }>
+      <VStack className="p-4 pb-0 md:px-10 md:pt-6  w-full" space="2xl">
+        {
+          streams.map((item, index) => {
+            return <StreamRow stream={item} key={index} />
+          })
+        }
+      </VStack>
+    </ScrollView>
   );
 };
 
