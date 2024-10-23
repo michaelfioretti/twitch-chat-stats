@@ -12,14 +12,13 @@ import { VStack } from '@/components/ui/vstack';
 const StreamList = () => {
   const twitchContext = useContext(TwitchContext);
 
-  if (!twitchContext) {
+  if (!twitchContext || twitchContext.loadingStreams) {
     return <Spinner size="large" />;
   }
 
   const { streams } = twitchContext;
 
   return (
-    <SafeAreaView>
       <Box className="flex-1 ">
         <ScrollView
           showsVerticalScrollIndicator={false}
@@ -38,7 +37,6 @@ const StreamList = () => {
           </VStack>
         </ScrollView>
       </Box>
-    </SafeAreaView>
   );
 };
 

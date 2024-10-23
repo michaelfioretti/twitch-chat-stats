@@ -12,6 +12,9 @@ import StreamRow from '@/components/StreamRow';
 import { Spinner } from '@/components/ui/spinner';
 import { Alert, AlertIcon, AlertText } from '@/components/ui/alert';
 import { Box } from '@/components/ui/box';
+import { Center } from '@/components/ui/center';
+import { VStack } from '@/components/ui/vstack';
+import { Heading } from '@/components/ui/heading';
 
 export default function SearchScreen() {
   // const { colorMode } = useContext(ThemeContext);
@@ -42,6 +45,14 @@ export default function SearchScreen() {
 
   return (
     <SafeAreaView>
+      <VStack
+        className="p-4 pb-0 self-center md:mb-2"
+        space="xl"
+      >
+        <Heading size="xl" className='font-roboto'>
+          Search
+        </Heading>
+      </VStack>
       <FormControl className="my-4">
         <Input variant="underlined" size="sm" className="mx-6 my-2">
           <InputField
@@ -66,7 +77,7 @@ export default function SearchScreen() {
         searchError ? <Box>
           <Alert action="error" variant="solid">
             <AlertIcon as={InfoIcon} />
-            <AlertText>Description of alert!</AlertText>
+            <AlertText>There was an error preforming your search. Please try again.</AlertText>
           </Alert>
         </Box> : <></>
       }
