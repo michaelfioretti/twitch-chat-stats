@@ -1,6 +1,8 @@
 import { TwitchStream } from '@/types/stream';
 import axios from 'axios';
 
+// Note: Would like this in an env variable even if it is public, but
+// expo env variables are not working as expected at the moment
 const API_URL = 'https://wthqeqkwrf.execute-api.us-east-1.amazonaws.com'
 
 class TwitchManager {

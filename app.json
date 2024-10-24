@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "twitchchatstats",
-    "slug": "twitchchatstats",
+    "name": "Twitch Top Livestreams",
+    "slug": "twitchtoplivestreams",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -13,7 +13,8 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.michaelfioretti.twitchlivestreamapp"
     },
     "android": {
       "adaptiveIcon": {
@@ -32,6 +33,11 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "eas": {
+        "projectId": "c09378ee-0a8c-4c90-bdd7-f709c25a4012"
+      }
     }
   }
 }
